@@ -4,20 +4,47 @@ import Textfield from "./Textfield";
 import Plus from "../icons/plusmito.svg";
 import SubmitButton from "./SubmitButton";
 import { colors } from "../data/style";
+import { useLocation, useNavigate } from "react-router-dom";
+import { BookValues, Location } from "../types/generalTypes";
+import * as Yup from "yup";
+import Autocomplete from "./Autocomplete";
+import DateSelector from "./DateSelector";
+import { cities } from "../data/data";
+
 const DestinationSelector = () => {
-  const formik = useFormik({
+  const location: any = useLocation();
+  // const { origin, destination, departureDate, returnDate } = location.state;
+  const navigate = useNavigate();
+  const formik = useFormik<BookValues>({
     initialValues: {
-      destination: "",
       origin: "",
-      departure: "",
-      return: "",
+      destination: "",
+      departureDate: new Date(),
+      returnDate: null,
     },
-    onSubmit: (values) => {
+    validationSchema: Yup.object({
+      origin: Yup.string()
+        .min(2, "Too Short!")
+        .max(50, "Too Long!")
+        .required("Required"),
+      destination: Yup.string()
+        .min(2, "Too Short!")
+        .max(50, "Too Long!")
+        .required("Required"),
+      departureDate: Yup.string().required("Required"),
+      returnDate: Yup.string(),
+    }),
+    onSubmit: (values: BookValues) => {
       console.log(values);
+      navigate("/book", { state: values });
     },
   });
   return (
-    <div>
+    <div
+      style={{
+        backgroundColor: colors.text1,
+      }}
+    >
       <div
         style={{
           height: "50px",
@@ -26,7 +53,6 @@ const DestinationSelector = () => {
           flexDirection: "row",
           alignItems: "center",
           color: colors.text1,
-          //   paddingLeft: "10px",
         }}
       >
         <img
@@ -44,7 +70,7 @@ const DestinationSelector = () => {
       <div
         style={{
           border: "1px solid black",
-          width: "500px",
+          width: "450px",
           padding: "10px",
           paddingBottom: "30px",
         }}
@@ -53,38 +79,35 @@ const DestinationSelector = () => {
         <form onSubmit={formik.handleSubmit}>
           <div
             style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              // display: "flex",
+              // flexDirection: "row",
+              // justifyContent: "space-between",
+              display: "grid",
+              gridTemplateColumns: "auto auto",
+              padding: "10px",
             }}
           >
-            <Textfield
-              label="destination"
-              value={formik.values.destination}
-              onChange={(value) => formik.setFieldValue("destination", value)}
-            />
-            <Textfield
-              label="origin"
-              value={formik.values.origin}
+            <Autocomplete
+              name="origin"
+              options={cities}
+              // value={formik.values.origin}
               onChange={(value) => formik.setFieldValue("origin", value)}
             />
-          </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <Textfield
-              label="destination"
-              value={formik.values.destination}
+            <Autocomplete
+              name="destination"
+              options={cities}
+              // value={formik.values.destination}
               onChange={(value) => formik.setFieldValue("destination", value)}
             />
-            <Textfield
-              label="origin"
-              value={formik.values.origin}
-              onChange={(value) => formik.setFieldValue("origin", value)}
+            <DateSelector
+              name="departureDate"
+              value={formik.values.departureDate}
+              onChange={(value) => formik.setFieldValue("departureDate", value)}
+            />
+            <DateSelector
+              name="returnDate"
+              value={formik.values.returnDate}
+              onChange={(value) => formik.setFieldValue("returnDate", value)}
             />
           </div>
           <SubmitButton label="Search" />

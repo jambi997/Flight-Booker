@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.hover {
+  background-color: #6293f5;
+  /* color: white; */
+}
+
+.hover:hover {
+  background-color: #324d83;
+}
+
+.date-picker {
+  border: 1px solid #000000;
+  padding: 10px;
+  width: 100%;
+  height: 20px;
+  margin: 0;
+  margin-left: -11px;
+}

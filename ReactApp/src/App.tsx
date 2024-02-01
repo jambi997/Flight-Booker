@@ -1,12 +1,22 @@
 import React from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import Home from "./pages/Home";
-
+import { Route, Routes } from "react-router-dom";
+import SelectFlight from "./pages/SelectFlight";
+import europe from "./icons/europe.svg";
 function App() {
   return (
-    <div>
-      <Home />
+    <div
+      style={{
+        backgroundImage: `url(${europe})`,
+        backgroundSize: "cover",
+        height: "100vh",
+      }}
+    >
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/book" element={<SelectFlight />} />
+      </Routes>
     </div>
   );
 }

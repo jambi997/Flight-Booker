@@ -1,13 +1,19 @@
 import React from "react";
+import { cities } from "../data/data";
+import DatePicker from "react-datepicker";
+import Autocomplete from "./Autocomplete";
 
+import "react-datepicker/dist/react-datepicker.css";
 interface TextfieldProps {
-  label: string;
+  name: string;
   value: string;
   onChange: (value: string) => void;
+  label?: string;
 }
 
 const Textfield = (props: TextfieldProps) => {
-    const { label, value, onChange } = props;
+  const { name, label, value, onChange} = props;
+
   return (
     <div
       style={{
@@ -16,25 +22,25 @@ const Textfield = (props: TextfieldProps) => {
         alignItems: "center",
         justifyContent: "center",
         justifyItems: "center",
-        width: "90%",
         paddingLeft: "10px",
         paddingRight: "10px",
         margin: "10px",
       }}
     >
-      <input
-        style={{
-          border: "1px solid black",
-          padding: "10px",
-          //   borderRadius: "5px",
-          width: "100%",
-        }}
-        id={label}
-        name={label}
-        type="text"
-        onChange={(e) => onChange(e.target.value)}
-        value={value}
-      />
+        <input
+          style={{
+            border: "1px solid black",
+            padding: "10px",
+            //   borderRadius: "5px",
+            width: "100%",
+          }}
+          id={name}
+          name={name}
+          placeholder={name}
+          type="text"
+          onChange={(e) => onChange(e.target.value)}
+          value={value}
+        />
     </div>
   );
 };
