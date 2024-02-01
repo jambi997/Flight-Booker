@@ -5,7 +5,7 @@ import "react-datepicker/dist/react-datepicker.css";
 interface TextfieldProps {
   name: string;
   value?: Date | null;
-  onChange: (value: string) => void;
+  onChange: (value: Date) => void;
   label?: string;
   type?: "text" | "autocomplete" | "date";
 }
@@ -28,8 +28,8 @@ const DateSelector = (props: TextfieldProps) => {
     >
       <ReactDatePicker
         className="date-picker"
-        selected={new Date()}
-        onChange={(date) => onChange(date?.toString() || "")}
+        selected={value}
+        onChange={(date) => onChange(date as Date)}
         name={name}
       />
     </div>

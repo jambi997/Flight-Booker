@@ -31,14 +31,16 @@ const DestinationSelector = () => {
         .min(2, "Too Short!")
         .max(50, "Too Long!")
         .required("Required"),
-      departureDate: Yup.string().required("Required"),
-      returnDate: Yup.string(),
+      departureDate: Yup.date()
+      .required("Required"),
+      returnDate: Yup.date().nullable(),
     }),
     onSubmit: (values: BookValues) => {
-      console.log(values);
+      // console.log(values);
       navigate("/book", { state: values });
     },
   });
+  console.log(formik);
   return (
     <div
       style={{
@@ -76,7 +78,7 @@ const DestinationSelector = () => {
         }}
       >
         {/* <h1>DestinationSelector</h1> */}
-        <form onSubmit={formik.handleSubmit}>
+        <form onSubmit={formik.handleSubmit} autoComplete="off">
           <div
             style={{
               // display: "flex",
@@ -90,13 +92,13 @@ const DestinationSelector = () => {
             <Autocomplete
               name="origin"
               options={cities}
-              // value={formik.values.origin}
+              value={formik.values.origin}
               onChange={(value) => formik.setFieldValue("origin", value)}
             />
             <Autocomplete
               name="destination"
               options={cities}
-              // value={formik.values.destination}
+              value={formik.values.destination}
               onChange={(value) => formik.setFieldValue("destination", value)}
             />
             <DateSelector

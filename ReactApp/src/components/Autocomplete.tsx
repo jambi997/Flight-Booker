@@ -4,11 +4,12 @@ interface AutocompleteProps {
   options: string[];
   onChange: (value: string) => void;
   name: string;
+  value?: string;
   label?: string;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = (props) => {
-  const { name, label, options, onChange } = props;
+  const { name, label, value, options, onChange } = props;
   const [inputValue, setInputValue] = useState("");
   const [suggestedOptions, setSuggestedOptions] = useState<string[]>([]);
   const autocompleteRef = useRef<HTMLInputElement>(null);
@@ -80,6 +81,8 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
           type="text"
           value={inputValue}
           placeholder={label || name}
+          name={name}
+          defaultValue={value}
           onChange={handleInputChange}
           onFocus={() => {
             const filteredOptions = options.filter((option) =>
