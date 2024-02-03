@@ -3,15 +3,26 @@ import { colors } from "../data/style";
 import Plus from "../icons/plusmito.svg";
 import airplane from "../icons/airplane.svg";
 import { useLocation } from "react-router-dom";
-import { Location } from "../types/generalTypes";
+import { Location, SelectedTickets, Ticket } from "../types/generalTypes";
 import FlightSelector from "../components/FlightSelector";
+import TicketPayHandler from "../components/TicketPayHandler";
 
 const SelectFlight = () => {
   const location: Location = useLocation();
   const { origin, destination, departureDate, returnDate } = location.state;
-  console.log(location);
+  const [selectedTickets, setSelectedTickets] = React.useState<SelectedTickets>(
+    {}
+  );
+
+  const handleSelectTicket = (ticket: Ticket | null, type: string) => {
+    setSelectedTickets({ ...selectedTickets, [type]: ticket });
+  };
   return (
-    <div>
+    <div
+    style={{
+    }}
+    >
+
       <div
         style={{
           height: "50px",
@@ -20,6 +31,7 @@ const SelectFlight = () => {
           flexDirection: "row",
           alignItems: "center",
           color: colors.text1,
+          // width: "100wv",
         }}
       >
         <img
@@ -65,15 +77,22 @@ const SelectFlight = () => {
         style={{
           display: "grid",
           gridTemplateColumns: "1fr 4fr",
+          padding: "10px",
+          //spacing
+          columnGap: "20px",
         }}
       >
-        <div>pay for the flight</div>
+        <div>
+          <TicketPayHandler selectedTickets={selectedTickets} />
+        </div>
         <div>
           <FlightSelector
             label="outbound"
             origin={origin}
             destination={destination}
             departureDate={departureDate}
+            ticketType="departureTicket"
+            handleSelectTicket={handleSelectTicket}
           />
           {returnDate && (
             <FlightSelector
@@ -81,6 +100,8 @@ const SelectFlight = () => {
               origin={destination}
               destination={origin}
               departureDate={returnDate}
+              ticketType="returnTicket"
+              handleSelectTicket={handleSelectTicket}
             />
           )}
         </div>

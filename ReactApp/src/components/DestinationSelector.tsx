@@ -40,7 +40,7 @@ const DestinationSelector = () => {
       navigate("/book", { state: values });
     },
   });
-  console.log(formik);
+
   return (
     <div
       style={{

@@ -1,24 +1,47 @@
-import React from "react";
+import React, { useEffect } from "react";
 import arrow from "../icons/arrow.svg";
 import { departureTimes, prices } from "../data/data";
 import leftArrow from "../icons/left-arrow-chevron.svg";
 import { colors } from "../data/style";
+import { Ticket } from "../types/generalTypes";
 interface flightSelectorProps {
   label: string;
   origin: string;
   destination: string;
   departureDate: Date;
+  handleSelectTicket: (ticket: Ticket | null, type: string) => void;
+  ticketType: string;
 }
 
 const FlightSelector = (props: flightSelectorProps) => {
-  const { label, origin, destination, departureDate } = props;
-  const [selectedTicket, setSelectedTicket] = React.useState<string>("");
+  const {
+    label,
+    origin,
+    destination,
+    departureDate,
+    handleSelectTicket,
+    ticketType,
+  } = props;
+  const [selectedTicket, setSelectedTicket] = React.useState<Ticket | null>(
+    null
+  );
   const [selectedDate, setSelectedDate] = React.useState<Date>(departureDate);
+
+  const handleTicketSelection = (ticket: Ticket | null) => {
+    console.log(ticket);
+    setSelectedTicket(ticket);
+    // handleSelectTicket(ticket, ticketType);
+  };
+
+  useEffect(() => {
+    handleSelectTicket(selectedTicket, ticketType);
+  }, [selectedTicket ,selectedDate]);
+
   return (
     <div
       style={{
         // width: "90%",
-        margin: "10px",
+        // margin: "10px",
         backgroundColor: "white",
         border: "1px solid lightgrey",
         boxShadow: "0px 0px 1px 0px rgba(0,0,0,0.75)",
@@ -33,22 +56,22 @@ const FlightSelector = (props: flightSelectorProps) => {
           alignItems: "center",
         }}
       >
-        <text
+        <div
           style={{
             marginRight: "20px",
             textTransform: "uppercase",
           }}
         >
           {label}
-        </text>
-        <text
+        </div>
+        <div
           style={{
             color: colors.primary,
             fontWeight: "bold",
           }}
         >
           {origin}
-        </text>
+        </div>
         <img
           src={arrow}
           style={{
@@ -58,14 +81,14 @@ const FlightSelector = (props: flightSelectorProps) => {
           }}
           alt="arrow"
         />
-        <text
+        <div
           style={{
             color: colors.primary,
             fontWeight: "bold",
           }}
         >
           {destination}
-        </text>
+        </div>
       </div>
       <div
         style={{
@@ -85,6 +108,8 @@ const FlightSelector = (props: flightSelectorProps) => {
             backgroundColor: "transparent",
             textTransform: "uppercase",
             cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
           }}
         >
           <img
@@ -97,11 +122,11 @@ const FlightSelector = (props: flightSelectorProps) => {
             }}
             alt="arrow"
           />
-          <text>
+          <div>
             {new Date(selectedDate.getTime() - 86400000).toLocaleDateString()}{" "}
-          </text>
+          </div>
         </button>
-        <text>{selectedDate.toLocaleDateString()}</text>
+        <div>{selectedDate.toLocaleDateString()}</div>
         <button
           onClick={() => {
             setSelectedDate(new Date(selectedDate.getTime() + 86400000));
@@ -111,11 +136,13 @@ const FlightSelector = (props: flightSelectorProps) => {
             backgroundColor: "transparent",
             textTransform: "uppercase",
             cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
           }}
         >
-          <text>
+          <div>
             {new Date(selectedDate.getTime() + 86400000).toLocaleDateString()}{" "}
-          </text>
+          </div>
           <img
             src={leftArrow}
             style={{
@@ -128,7 +155,7 @@ const FlightSelector = (props: flightSelectorProps) => {
         </button>{" "}
       </div>
       <div>
-        {departureTimes.map((time, index) => (
+        {departureTimes.map((time, i) => (
           <div
             style={{
               display: "flex",
@@ -152,7 +179,7 @@ const FlightSelector = (props: flightSelectorProps) => {
                   cursor: "pointer",
                 }}
               >
-                <text>
+                <div>
                   {time.departure}
                   <img
                     src={arrow}
@@ -164,7 +191,7 @@ const FlightSelector = (props: flightSelectorProps) => {
                     alt="arrow"
                   />
                   {time.arrival}
-                </text>
+                </div>
               </button>
             </div>
             {prices.map((price, j) => (
@@ -177,24 +204,33 @@ const FlightSelector = (props: flightSelectorProps) => {
                   //   backgroundColor: j === 1 ? "lightgrey" : "white",
                 }}
               >
-                {index < 1 && (
-                  <text
+                {i < 1 && (
+                  <div
                     style={{
                       textTransform: "uppercase",
                       fontSize: "10px",
                     }}
                   >
-                    <text>{price.name}</text>
-                  </text>
+                    <div>{price.name}</div>
+                  </div>
                 )}
                 <button
+                  className="hover"
                   onClick={() => {
-                    setSelectedTicket(time.departure);
+                    handleTicketSelection({
+                      origin: origin,
+                      destination: destination,
+                      departureDate: selectedDate,
+                      departureTime: time.departure,
+                      arrivalTime: time.arrival,
+                      price: price.price,
+                      id: `${i}${j}`,
+                    });
                   }}
                   style={{
                     border: "none",
-                    backgroundColor: "transparent",
                     textTransform: "uppercase",
+                    backgroundColor: "transparent",
                     cursor: "pointer",
                   }}
                 >
@@ -203,13 +239,21 @@ const FlightSelector = (props: flightSelectorProps) => {
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "space-between",
+                      color:
+                        `${i}${j}` === selectedTicket?.id
+                          ? colors.text1
+                          : colors.text2,
+                      backgroundColor:
+                        `${i}${j}` === selectedTicket?.id
+                          ? colors.secondary
+                          : "transparent",
                       alignItems: "center",
-                      border: "2px solid red",
+                      border: `2px solid ${colors.secondary}`,
                       padding: "10px",
                       width: "100px",
                     }}
                   >
-                    <text>${price.price}</text>
+                    <div>${price.price}</div>
                   </div>
                 </button>
               </div>
