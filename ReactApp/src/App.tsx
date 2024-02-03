@@ -10,7 +10,7 @@ function App() {
       style={{
         backgroundImage: `url(${europe})`,
         backgroundSize: "cover",
-        height: "100vh",
+        height: "100%",
       }}
     >
       <Routes>

@@ -89,6 +89,7 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     // justifyContent: "space-between",
+                    marginRight: "20px",
                     marginBottom: "10px",
                   }}
                 >

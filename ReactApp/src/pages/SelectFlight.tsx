@@ -18,11 +18,7 @@ const SelectFlight = () => {
     setSelectedTickets({ ...selectedTickets, [type]: ticket });
   };
   return (
-    <div
-    style={{
-    }}
-    >
-
+    <div>
       <div
         style={{
           height: "50px",
@@ -53,57 +49,69 @@ const SelectFlight = () => {
       </div>
       <div
         style={{
-          color: colors.primary,
           display: "flex",
-          justifyContent: "center",
+          flexDirection: "column",
           alignItems: "center",
-          height: "100px",
-          fontSize: "30px",
-          marginBottom: "10px",
+          justifyContent: "center",
         }}
       >
-        <img
-          src={airplane}
+        <div
           style={{
-            height: "30px",
-            paddingRight: "30px",
-            paddingLeft: "10px",
+            color: colors.primary,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100px",
+            fontSize: "30px",
+            marginBottom: "10px",
           }}
-          alt="airplane"
-        />
-        SELECT FLIGHT
-      </div>
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 4fr",
-          padding: "10px",
-          //spacing
-          columnGap: "20px",
-        }}
-      >
-        <div>
-          <TicketPayHandler selectedTickets={selectedTickets} />
-        </div>
-        <div>
-          <FlightSelector
-            label="outbound"
-            origin={origin}
-            destination={destination}
-            departureDate={departureDate}
-            ticketType="departureTicket"
-            handleSelectTicket={handleSelectTicket}
+        >
+          <img
+            src={airplane}
+            style={{
+              height: "30px",
+              paddingRight: "30px",
+              paddingLeft: "10px",
+            }}
+            alt="airplane"
           />
-          {returnDate && (
+          SELECT FLIGHT
+        </div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "1fr 4fr",
+            width: "95vw",
+            maxWidth: "1050px",
+            padding: "10px",
+            margin: "10px",
+            //spacing
+            columnGap: "20px",
+          }}
+        >
+          <div>
+            <TicketPayHandler selectedTickets={selectedTickets} />
+          </div>
+          <div>
             <FlightSelector
-              label="inbound"
-              origin={destination}
-              destination={origin}
-              departureDate={returnDate}
-              ticketType="returnTicket"
+              label="outbound"
+              origin={origin}
+              destination={destination}
+              departureDate={departureDate}
+              ticketType="departureTicket"
               handleSelectTicket={handleSelectTicket}
             />
-          )}
+            {returnDate && (
+              <FlightSelector
+                label="inbound"
+                origin={destination}
+                destination={origin}
+                departureDate={returnDate}
+                ticketType="returnTicket"
+                handleSelectTicket={handleSelectTicket}
+              />
+            )}
+          </div>
         </div>
       </div>
     </div>

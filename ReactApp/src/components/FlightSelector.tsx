@@ -60,7 +60,7 @@ const FlightSelector = (props: flightSelectorProps) => {
     <div
       style={{
         // width: "90%",
-        // margin: "10px",
+        marginBottom: "30px",
         backgroundColor: "white",
         border: "1px solid lightgrey",
         boxShadow: "0px 0px 1px 0px rgba(0,0,0,0.75)",
