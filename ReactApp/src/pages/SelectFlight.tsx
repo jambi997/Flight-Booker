@@ -6,16 +6,38 @@ import { useLocation } from "react-router-dom";
 import { Location, SelectedTickets, Ticket } from "../types/generalTypes";
 import FlightSelector from "../components/FlightSelector";
 import TicketPayHandler from "../components/TicketPayHandler";
+import arrow from "../icons/arrow.svg";
+import FlightSelectorTop from "../components/FlightSelectorTop";
+import DateSelector from "../components/DateSelector";
+import SubmitButton from "../components/SubmitButton";
 
 const SelectFlight = () => {
   const location: Location = useLocation();
-  const { origin, destination, departureDate, returnDate } = location.state;
+  const storedData = localStorage.getItem("bookValues");
+  const parsedData = storedData ? JSON.parse(storedData) : null;
+  console.log(location);
+  // const { origin, destination, departureDate, returnDate } = location.state;
+  const { origin, destination } = parsedData;
+  const departureDate = new Date(parsedData.departureDate);
+  const [returnDate, setReturnDate] = React.useState<Date | null>(
+    parsedData.returnDate ? new Date(parsedData.returnDate) : null
+  );
+  const [tempReturnDate, setTempReturnDate] = React.useState<Date | null>(null);
+  // const returnDate = parsedData.returnDate
+  //   ? new Date(parsedData.returnDate)
+  //   : null;
   const [selectedTickets, setSelectedTickets] = React.useState<SelectedTickets>(
     {}
   );
 
   const handleSelectTicket = (ticket: Ticket | null, type: string) => {
     setSelectedTickets({ ...selectedTickets, [type]: ticket });
+  };
+
+  const changeReturnDate = (value: Date) => {
+    console.log(value);
+    // setReturnDate(value);
+    setTempReturnDate(value);
   };
   return (
     <div>
@@ -101,7 +123,7 @@ const SelectFlight = () => {
               ticketType="departureTicket"
               handleSelectTicket={handleSelectTicket}
             />
-            {returnDate && (
+            {returnDate ? (
               <FlightSelector
                 label="inbound"
                 origin={destination}
@@ -110,6 +132,51 @@ const SelectFlight = () => {
                 ticketType="returnTicket"
                 handleSelectTicket={handleSelectTicket}
               />
+            ) : (
+              <div
+                style={{
+                  // width: "90%",
+                  marginBottom: "30px",
+                  backgroundColor: "white",
+                  border: "1px solid lightgrey",
+                  boxShadow: "0px 0px 1px 0px rgba(0,0,0,0.75)",
+                }}
+              >
+                <FlightSelectorTop
+                  label="inbound"
+                  origin={destination}
+                  destination={origin}
+                />
+                <div
+                  style={{
+                    padding: "30px",
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <DateSelector
+                      name="returnDate"
+                      value={tempReturnDate}
+                      onChange={(value) => changeReturnDate(value)}
+                    />
+                  </div>
+                  <div
+                    style={{
+                      width: "100px",
+                    }}
+                  >
+                    <SubmitButton
+                      label="Search"
+                      onClick={() => {
+                        setReturnDate(tempReturnDate);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
             )}
           </div>
         </div>

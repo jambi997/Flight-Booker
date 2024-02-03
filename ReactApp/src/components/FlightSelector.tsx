@@ -11,6 +11,7 @@ import {
 import leftArrow from "../icons/left-arrow-chevron.svg";
 import { colors } from "../data/style";
 import { Ticket } from "../types/generalTypes";
+import FlightSelectorTop from "./FlightSelectorTop";
 interface flightSelectorProps {
   label: string;
   origin: string;
@@ -66,49 +67,11 @@ const FlightSelector = (props: flightSelectorProps) => {
         boxShadow: "0px 0px 1px 0px rgba(0,0,0,0.75)",
       }}
     >
-      <div
-        style={{
-          backgroundColor: "lightgrey",
-          padding: "10px",
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            marginRight: "20px",
-            textTransform: "uppercase",
-          }}
-        >
-          {label}
-        </div>
-        <div
-          style={{
-            color: colors.primary,
-            fontWeight: "bold",
-          }}
-        >
-          {origin}
-        </div>
-        <img
-          src={arrow}
-          style={{
-            height: "5px",
-            paddingRight: "20px",
-            paddingLeft: "20px",
-          }}
-          alt="arrow"
-        />
-        <div
-          style={{
-            color: colors.primary,
-            fontWeight: "bold",
-          }}
-        >
-          {destination}
-        </div>
-      </div>
+      <FlightSelectorTop
+        label={label}
+        origin={origin}
+        destination={destination}
+      />
       <div
         style={{
           display: "flex",

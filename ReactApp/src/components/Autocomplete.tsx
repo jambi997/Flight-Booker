@@ -10,7 +10,7 @@ interface AutocompleteProps {
 
 const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   const { name, label, value, options, onChange } = props;
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState(value || "");
   const [suggestedOptions, setSuggestedOptions] = useState<string[]>([]);
   const autocompleteRef = useRef<HTMLInputElement>(null);
 
@@ -44,7 +44,6 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-
   return (
     <div
       style={{
@@ -82,7 +81,6 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
           value={inputValue}
           placeholder={label || name}
           name={name}
-          defaultValue={value}
           onChange={handleInputChange}
           onFocus={() => {
             const filteredOptions = options.filter((option) =>

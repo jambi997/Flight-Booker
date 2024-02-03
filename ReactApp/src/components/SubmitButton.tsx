@@ -3,10 +3,11 @@ import { colors } from "../data/style";
 
 interface SubmitButtonProps {
   label: string;
+  onClick?: () => void;
 }
 
 const SubmitButton = (props: SubmitButtonProps) => {
-  const { label } = props;
+  const { label ,onClick } = props;
   return (
     <div
       style={{
@@ -16,6 +17,7 @@ const SubmitButton = (props: SubmitButtonProps) => {
       }}
     >
       <button
+        onClick={onClick}
         style={{
           border: "1px solid black",
           padding: "10px",
@@ -25,7 +27,7 @@ const SubmitButton = (props: SubmitButtonProps) => {
           color: colors.text1,
           cursor: "pointer",
         }}
-        type="submit"
+        type={onClick ? "button" : "submit"}
       >
         {label}
       </button>
