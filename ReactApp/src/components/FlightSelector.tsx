@@ -1,6 +1,13 @@
 import React, { useEffect } from "react";
 import arrow from "../icons/arrow.svg";
-import { departureTimes, prices } from "../data/data";
+import {
+  days,
+  departureTimes,
+  fullDays,
+  fullMonths,
+  months,
+  prices,
+} from "../data/data";
 import leftArrow from "../icons/left-arrow-chevron.svg";
 import { colors } from "../data/style";
 import { Ticket } from "../types/generalTypes";
@@ -12,6 +19,12 @@ interface flightSelectorProps {
   handleSelectTicket: (ticket: Ticket | null, type: string) => void;
   ticketType: string;
 }
+
+const basicDate = (date: Date) => {
+  return `${days[date.getDay()]}, ${date.getDate()} ${
+    fullMonths[date.getMonth()]
+  }`;
+};
 
 const FlightSelector = (props: flightSelectorProps) => {
   const {
@@ -28,14 +41,20 @@ const FlightSelector = (props: flightSelectorProps) => {
   const [selectedDate, setSelectedDate] = React.useState<Date>(departureDate);
 
   const handleTicketSelection = (ticket: Ticket | null) => {
-    console.log(ticket);
     setSelectedTicket(ticket);
     // handleSelectTicket(ticket, ticketType);
   };
 
   useEffect(() => {
-    handleSelectTicket(selectedTicket, ticketType);
-  }, [selectedTicket ,selectedDate]);
+    let tticket = null;
+    if (selectedTicket) {
+      tticket = {
+        ...selectedTicket,
+        departureDate: selectedDate,
+      };
+    }
+    handleSelectTicket(tticket, ticketType);
+  }, [selectedTicket, selectedDate]);
 
   return (
     <div
@@ -122,11 +141,23 @@ const FlightSelector = (props: flightSelectorProps) => {
             }}
             alt="arrow"
           />
-          <div>
-            {new Date(selectedDate.getTime() - 86400000).toLocaleDateString()}{" "}
+          <div
+            style={{
+              color: colors.gray,
+              fontSize: "13px",
+              lineHeight: "15.23px",
+            }}
+          >
+            {basicDate(new Date(selectedDate.getTime() - 86400000))}{" "}
           </div>
         </button>
-        <div>{selectedDate.toLocaleDateString()}</div>
+        <div>
+          {/* {selectedDate.toLocaleDateString()} */}
+          {fullDays[selectedDate.getDay()]}
+          {", "}
+          {selectedDate.getDate()} {fullMonths[selectedDate.getMonth()]}{" "}
+          {selectedDate.getFullYear()}
+        </div>
         <button
           onClick={() => {
             setSelectedDate(new Date(selectedDate.getTime() + 86400000));
@@ -140,8 +171,14 @@ const FlightSelector = (props: flightSelectorProps) => {
             alignItems: "center",
           }}
         >
-          <div>
-            {new Date(selectedDate.getTime() + 86400000).toLocaleDateString()}{" "}
+          <div
+            style={{
+              color: colors.gray,
+              fontSize: "13px",
+              lineHeight: "15.23px",
+            }}
+          >
+            {basicDate(new Date(selectedDate.getTime() + 86400000))}{" "}
           </div>
           <img
             src={leftArrow}

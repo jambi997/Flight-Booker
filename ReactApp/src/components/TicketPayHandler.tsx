@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SelectedTickets } from "../types/generalTypes";
+import { SelectedTickets, Ticket } from "../types/generalTypes";
 import { colors } from "../data/style";
 import { days, months } from "../data/data";
 import separatorWidthArrow from "../icons/Separator-with-Arrow.svg";
@@ -7,14 +7,23 @@ interface TicketPayHandlerProps {
   selectedTickets: SelectedTickets;
 }
 
+const ticketArraySorter = (tickets: SelectedTickets) => {
+  let ttickets = Object.values(tickets);
+  ttickets = ttickets.filter((ticket) => ticket !== null);
+  return ttickets.sort((a: any, b: any) => {
+    return a.departureDate - b.departureDate;
+  });
+};
+
 const TicketPayHandler = (props: TicketPayHandlerProps) => {
   const { selectedTickets } = props;
   const [totalPrice, setTotalPrice] = React.useState<number>(0);
   //   const tickets = Object.values(selectedTickets);
-  const [tickets, setTickets] = React.useState(Object.values(selectedTickets));
-
+  const [tickets, setTickets] = React.useState<Ticket[]>(
+    ticketArraySorter(selectedTickets)
+  );
   useEffect(() => {
-    setTickets(Object.values(selectedTickets));
+    setTickets(ticketArraySorter(selectedTickets));
     const ttickets = Object.values(selectedTickets);
     let price = 0;
     for (let i in ttickets) {
@@ -31,7 +40,7 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
       <div
         style={{
           backgroundColor: colors.text1,
-        //   padding: "10px",
+          //   padding: "10px",
           border: "1px solid lightgrey",
         }}
       >
@@ -51,29 +60,34 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
           {tickets.map((ticket, index) => {
             return (
               <div>
-                  {index > 0 && (
+                {index > 0 && (
                   <div
-                  style={{
-                    // width: "100%",
-                    // height: "1px",
-                    // backgroundColor: "lightgrey",
-                    // marginBottom: "10px",
-                  }}
+                    style={
+                      {
+                        // width: "100%",
+                        // height: "1px",
+                        // backgroundColor: "lightgrey",
+                        // marginBottom: "10px",
+                      }
+                    }
                   >
                     <img
-                       src={separatorWidthArrow}
-                          style={{
-                             width: "100%",
-                             height: "20px",
-                          }}
-                       />
-                    </div>)}
+                      src={separatorWidthArrow}
+                      style={{
+                        width: "100%",
+                        height: "20px",
+                      }}
+                    />
+                  </div>
+                )}
                 <div
                   key={index}
                   style={{
                     display: "flex",
                     flexDirection: "row",
                     paddingLeft: "10px",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                     // justifyContent: "space-between",
                     marginBottom: "10px",
                   }}
@@ -81,7 +95,7 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
                   <div
                     style={{
                       // padding: "2px",
-                      marginRight: "10px",
+                      marginRight: "13px",
                       display: "flex",
                       flexDirection: "column",
                       justifyContent: "center",
@@ -90,26 +104,28 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
                       fontSize: "14px",
                       boxShadow: "0px 0px 1px 2px lightgrey",
                       width: "35px",
+                      height: "50px",
                       // border: "1px solid lightgrey",
                     }}
                   >
                     <div
                       style={{
                         backgroundColor: "lightgray",
+                        height: "50%",
                         width: "100%",
                         padding: "2px",
                         display: "flex",
                         justifyContent: "center",
                       }}
                     >
-                      {months[ticket?.departureDate.getMonth()]}
+                      {months[ticket?.departureDate?.getMonth()]}
                     </div>
                     <div
                       style={{
                         padding: "2px",
                       }}
                     >
-                      {ticket?.departureDate.getDate()}
+                      {ticket?.departureDate?.getDate()}
                     </div>
                   </div>
                   <div>
@@ -121,7 +137,7 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
                         fontSize: "12px",
                       }}
                     >
-                      {days[ticket?.departureDate.getDay()]}{" "}
+                      {days[ticket?.departureDate?.getDay()]}{" "}
                       {ticket?.departureTime}
                       {" - "}
                       {ticket?.arrivalTime}
