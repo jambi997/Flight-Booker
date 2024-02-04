@@ -3,7 +3,12 @@ import { colors } from "../data/style";
 import Plus from "../icons/plusmito.svg";
 import airplane from "../icons/airplane.svg";
 import { useLocation } from "react-router-dom";
-import { Location, SelectedTickets, Ticket } from "../types/generalTypes";
+import {
+  FlightData,
+  Location,
+  SelectedTickets,
+  Ticket,
+} from "../types/generalTypes";
 import FlightSelector from "../components/FlightSelector";
 import TicketPayHandler from "../components/TicketPayHandler";
 // import arrow from "../icons/arrow.svg";
@@ -12,10 +17,12 @@ import FlightSelectorTop from "../components/FlightSelectorTop";
 import DateSelector from "../components/DateSelector";
 import SubmitButton from "../components/SubmitButton";
 import { isMobile } from "react-device-detect";
+import { getTicketPrices } from "../services/generalServices";
 
 const SelectFlight = () => {
   const storedData = localStorage.getItem("bookValues");
   const parsedData = storedData ? JSON.parse(storedData) : null;
+  const [flightData, setFlightData] = React.useState<FlightData | null>(null);
   const { origin, destination } = parsedData;
   // const departureDate = new Date(parsedData.departureDate);
   const [departureDate, setDepartureDate] = React.useState<Date>(
@@ -68,6 +75,16 @@ const SelectFlight = () => {
       setReturnError("");
     }
   }, [tempReturnDate]);
+
+  useEffect(() => {
+    const getData = async () => {
+      const priceData = await getTicketPrices();
+
+      console.log(priceData);
+      setFlightData(priceData);
+    };
+    getData();
+  }, []);
 
   return (
     <div>
@@ -225,6 +242,7 @@ const SelectFlight = () => {
               origin={origin}
               destination={destination}
               selectedTickets={selectedTickets}
+              flightData={flightData}
               minDate={new Date()}
               departureDate={departureDate}
               setDate={setDepartureDate}
@@ -235,6 +253,7 @@ const SelectFlight = () => {
               <FlightSelector
                 label="inbound"
                 origin={destination}
+                flightData={flightData}
                 destination={origin}
                 selectedTickets={selectedTickets}
                 minDate={

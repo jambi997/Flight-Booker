@@ -1,18 +1,11 @@
 import React, { useEffect } from "react";
 import arrow from "../icons/arrow.svg";
-import {
-  days,
-  departureTimes,
-  fullDays,
-  fullMonths,
-  months,
-  prices,
-} from "../data/data";
 import leftArrow from "../icons/left-arrow-chevron.svg";
 import { colors } from "../data/style";
-import { SelectedTickets, Ticket } from "../types/generalTypes";
+import { FlightData, SelectedTickets, Ticket } from "../types/generalTypes";
 import FlightSelectorTop from "./FlightSelectorTop";
 import { isMobile } from "react-device-detect";
+import { days, fullDays, fullMonths } from "../data/utils";
 
 interface flightSelectorProps {
   label: string;
@@ -20,6 +13,7 @@ interface flightSelectorProps {
   destination: string;
   departureDate: Date;
   selectedTickets: SelectedTickets;
+  flightData: FlightData | null;
   minDate: Date;
   setDate?: (date: Date) => void;
   handleSelectTicket: (ticket: Ticket | null, type: string) => void;
@@ -39,11 +33,17 @@ const FlightSelector = (props: flightSelectorProps) => {
     destination,
     departureDate,
     handleSelectTicket,
+    flightData,
     minDate,
     selectedTickets,
     setDate,
     ticketType,
   } = props;
+
+  const { departureTimes, prices } = flightData || {
+    departureTimes: [],
+    prices: [],
+  };
   const [selectedTicket, setSelectedTicket] = React.useState<Ticket | null>(
     null
   );
@@ -115,8 +115,9 @@ const FlightSelector = (props: flightSelectorProps) => {
             backgroundColor: "transparent",
             textTransform: "uppercase",
             cursor: "pointer",
-           display: "flex",
-           opacity: selectedDate.getTime() - 86400000 < minDate.getTime() ? 0.6 : 1,
+            display: "flex",
+            opacity:
+              selectedDate.getTime() - 86400000 < minDate.getTime() ? 0.6 : 1,
             alignItems: "center",
           }}
         >

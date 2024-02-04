@@ -6,7 +6,7 @@ export interface BookValues {
 }
 
 export interface Location {
-    state: BookValues;
+  state: BookValues;
 }
 
 export interface Ticket {
@@ -17,6 +17,21 @@ export interface Ticket {
   arrivalTime: string;
   price: number;
   id: string;
+}
+
+export interface departureTime {
+  departure: string;
+  arrival: string;
+}
+
+export interface Price {
+  name: string;
+  price: number;
+}
+
+export interface FlightData {
+  departureTimes: departureTime[];
+  prices: Price[];
 }
 
 export interface SelectedTickets {

@@ -8,10 +8,11 @@ import { BookValues, Location } from "../types/generalTypes";
 import * as Yup from "yup";
 import Autocomplete from "./Autocomplete";
 import DateSelector from "./DateSelector";
-import { cities } from "../data/data";
 import { isMobile } from "react-device-detect";
+import { getCities } from "../services/generalServices";
 
 const DestinationSelector = () => {
+  const [cities, setCities] = React.useState<string[]>([]);
   const [originCities, setOriginCities] = React.useState<string[]>(cities);
   const [destinationCities, setDestinationCities] =
     React.useState<string[]>(cities);
@@ -51,10 +52,6 @@ const DestinationSelector = () => {
         ),
     }),
     onSubmit: (values: BookValues) => {
-      // navigate(
-      //   `/book?origin=${values.origin}&${values.destination}&${values.departureDate}&${values.returnDate}`,
-      //   { state: values }
-      // );
       navigate(`/book`);
     },
   });
@@ -75,6 +72,18 @@ const DestinationSelector = () => {
     );
     setOriginCities(filteredCities);
   }, [formik.values.destination]);
+
+  useEffect(() => {
+    const getCitiesData = async () => {
+      const citiesData = await getCities();
+      console.log(citiesData);
+      setCities(citiesData);
+      setOriginCities(citiesData);
+      setDestinationCities(citiesData);
+    };
+    getCitiesData();
+  }, []);
+
   return (
     <div
       style={{

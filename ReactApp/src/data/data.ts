@@ -1,4 +1,6 @@
-export const cities = [
+import { Price, departureTime } from "../types/generalTypes";
+
+export const cities: string[] = [
   "Budapest",
   "Debrecen",
   "Miskolc",
@@ -13,7 +15,7 @@ export const cities = [
   "Toulouse",
 ];
 
-export const departureTimes = [
+export const departureTimes: departureTime[] = [
   {
     departure: "06:00",
     arrival: "08:00",
@@ -29,28 +31,28 @@ export const departureTimes = [
   {
     departure: "12:00",
     arrival: "14:00",
-  }
+  },
 ];
 
-export const prices=[
-    {
-        name: "Basic",
-        price: 9.99,
-    },
-    {
-        name: "Standard",
-        price: 19.99,
-    },
-    {
-        name: "plus",
-        price: 29.99,
-    }
-]
-export const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-export const fullDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-export const months=[
-    'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
-]
-export const fullMonths=[
-    'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
-]
+export const prices: Price[] = [
+  {
+    name: "Basic",
+    price: 9.99,
+  },
+  {
+    name: "Standard",
+    price: 19.99,
+  },
+  {
+    name: "plus",
+    price: 29.99,
+  },
+];
+// export const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+// export const fullDays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+// export const months=[
+//     'jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'
+// ]
+// export const fullMonths=[
+//     'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'
+// ]

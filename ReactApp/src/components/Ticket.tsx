@@ -1,6 +1,6 @@
 import React from "react";
-import { days, months } from "../data/data";
 import { colors } from "../data/style";
+import { days, months } from "../data/utils";
 
 interface TicketProps {
   ticket: any;
