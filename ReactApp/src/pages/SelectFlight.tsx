@@ -23,6 +23,12 @@ const SelectFlight = () => {
   const storedData = localStorage.getItem("bookValues");
   !storedData && window.location.replace("/");
   const parsedData = storedData ? JSON.parse(storedData) : null;
+
+  (parsedData.origin === "" ||
+    parsedData.destination === "" ||
+    parsedData.departureDate === "") &&
+    window.location.replace("/");
+
   const [flightData, setFlightData] = React.useState<FlightData | null>(null);
   const { origin, destination } = parsedData;
   const [departureDate, setDepartureDate] = React.useState<Date>(
