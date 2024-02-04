@@ -116,9 +116,6 @@ const DestinationSelector = () => {
         <form onSubmit={formik.handleSubmit} autoComplete="off">
           <div
             style={{
-              // display: "flex",
-              // flexDirection: "row",
-              // justifyContent: "space-between",
               display: "grid",
               gridTemplateColumns: isMobile ? "auto" : "auto auto",
               padding: "10px",

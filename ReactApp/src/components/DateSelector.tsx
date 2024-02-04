@@ -31,24 +31,22 @@ const DateSelector = (props: TextfieldProps) => {
           zIndex: 0,
         }}
       >
-        {value && (
-          <div
-            style={{
-              position: "absolute",
-              marginTop: "-20px",
-              marginLeft: "-160px",
-              width: "20px",
-              // top: "-5px",
-              // width: "100%",
-              // backgroundColor: "white",
-              fontSize: "13px",
-              padding: "5px",
-              zIndex: 100,
-            }}
-          >
-            {label}
-          </div>
-        )}
+        <div
+          style={{
+            position: "absolute",
+            marginTop: value ? "-20px" : "0px",
+            marginLeft: "-160px",
+            width: "20px",
+            // top: "-5px",
+            // width: "100%",
+            // backgroundColor: "white",
+            fontSize: "13px",
+            padding: "5px",
+            zIndex: 100,
+          }}
+        >
+          {label}
+        </div>
         <ReactDatePicker
           className={error ? "error-date-picker" : "date-picker"}
           selected={value}

@@ -20,6 +20,7 @@ interface flightSelectorProps {
   destination: string;
   departureDate: Date;
   selectedTickets: SelectedTickets;
+  minDate: Date;
   handleSelectTicket: (ticket: Ticket | null, type: string) => void;
   ticketType: "departureTicket" | "returnTicket";
 }

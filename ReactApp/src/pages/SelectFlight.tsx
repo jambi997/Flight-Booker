@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { colors } from "../data/style";
 import Plus from "../icons/plusmito.svg";
 import airplane from "../icons/airplane.svg";
@@ -26,6 +26,7 @@ const SelectFlight = () => {
   const [selectedTickets, setSelectedTickets] = React.useState<SelectedTickets>(
     {}
   );
+  const [returnError, setReturnError] = React.useState<string>("");
 
   const handleSelectTicket = (ticket: Ticket | null, type: string) => {
     setSelectedTickets({ ...selectedTickets, [type]: ticket });
@@ -42,6 +43,18 @@ const SelectFlight = () => {
       JSON.stringify({ ...parsedData, returnDate: value })
     );
   };
+
+  useEffect(() => {
+    if (
+      tempReturnDate &&
+      new Date(tempReturnDate.getTime() - 8604000) < new Date(departureDate)
+    ) {
+      setReturnError("Return date must be after departure");
+    } else {
+      setReturnError("");
+    }
+  }, [tempReturnDate]);
+
   return (
     <div>
       <div
@@ -198,6 +211,7 @@ const SelectFlight = () => {
               origin={origin}
               destination={destination}
               selectedTickets={selectedTickets}
+              minDate={new Date()}
               departureDate={departureDate}
               ticketType="departureTicket"
               handleSelectTicket={handleSelectTicket}
@@ -208,6 +222,7 @@ const SelectFlight = () => {
                 origin={destination}
                 destination={origin}
                 selectedTickets={selectedTickets}
+                minDate={new Date(departureDate.getTime() - 8604000)}
                 departureDate={returnDate}
                 ticketType="returnTicket"
                 handleSelectTicket={handleSelectTicket}
@@ -231,7 +246,7 @@ const SelectFlight = () => {
                   style={{
                     padding: "30px",
                     display: "flex",
-                    flexDirection: "row",
+                    flexDirection: isMobile ? "column" : "row",
                     justifyContent: "center",
                     alignItems: "center",
                   }}
@@ -241,15 +256,19 @@ const SelectFlight = () => {
                       name="returnDate"
                       value={tempReturnDate}
                       onChange={(value) => changeReturnDate(value)}
+                      label="Return"
+                      error={returnError}
                     />
                   </div>
                   <div
                     style={{
                       width: "100px",
+                      marginTop: "-30px",
                     }}
                   >
                     <SubmitButton
                       label="Search"
+                      disabled={returnError !== ""}
                       onClick={() => {
                         setReturnDate(tempReturnDate);
                       }}
