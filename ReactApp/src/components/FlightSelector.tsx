@@ -80,7 +80,6 @@ const FlightSelector = (props: flightSelectorProps) => {
   return (
     <div
       style={{
-        // width: "90%",
         marginBottom: "30px",
         backgroundColor: "white",
         border: "1px solid lightgrey",
