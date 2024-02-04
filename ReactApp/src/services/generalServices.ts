@@ -1,8 +1,5 @@
-import {
-  cities,
-  departureTimes,
-  prices,
-} from "../data/data";
+import { cities, departureTimes, prices } from "../data/data";
+import { FlightData } from "../types/generalTypes";
 
 export const getCities = async () => {
   try {
@@ -26,9 +23,10 @@ export const getTicketPrices = async () => {
       throw new Error("Failed to fetch prices");
     }
     //   const data = await response.json();
-    const data = {
+    const data: FlightData = {
       prices: prices,
       departureTimes: departureTimes,
+      expiredTicketIds: [1, 32],
     };
     return data;
   } catch (error) {

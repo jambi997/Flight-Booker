@@ -32,6 +32,7 @@ export interface Price {
 export interface FlightData {
   departureTimes: departureTime[];
   prices: Price[];
+  expiredTicketIds: number[];
 }
 
 export interface SelectedTickets {
