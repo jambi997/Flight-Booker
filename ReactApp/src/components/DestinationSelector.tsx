@@ -64,14 +64,14 @@ const DestinationSelector = () => {
       (city) => city !== formik.values.origin
     );
     setDestinationCities(filteredCities);
-  }, [formik.values.origin]);
+  }, [formik.values.origin, cities]);
 
   useEffect(() => {
     const filteredCities = cities.filter(
       (city) => city !== formik.values.destination
     );
     setOriginCities(filteredCities);
-  }, [formik.values.destination]);
+  }, [formik.values.destination, cities]);
 
   useEffect(() => {
     const getCitiesData = async () => {
