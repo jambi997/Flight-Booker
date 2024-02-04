@@ -145,12 +145,14 @@ const DestinationSelector = () => {
               value={formik.values.departureDate}
               onChange={(value) => formik.setFieldValue("departureDate", value)}
               error={formik.errors.departureDate}
+              label="Departure"
             />
             <DateSelector
               name="returnDate"
               value={formik.values.returnDate}
               onChange={(value) => formik.setFieldValue("returnDate", value)}
               error={formik.errors.returnDate}
+              label="Return"
             />
           </div>
           <SubmitButton label="Search" />

@@ -69,8 +69,6 @@ const SelectFlight = () => {
             paddingLeft: isMobile ? "20px" : "100px",
             display: "flex",
             flexDirection: "row",
-            // justifyContent: "center",
-            // alignItems: "end",
             alignItems: "center",
           }}
         >

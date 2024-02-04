@@ -60,8 +60,8 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
         justifyItems: "center",
         paddingLeft: "10px",
         paddingRight: "10px",
-        marginBottom: "30px",
         margin: "10px",
+        marginBottom: "30px",
       }}
     >
       {" "}
@@ -88,7 +88,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
               zIndex: 1000,
             }}
           >
-            Header Text
+           {label}
           </div>
         )}
         <input
