@@ -3,8 +3,13 @@ import { SelectedTickets, Ticket } from "../types/generalTypes";
 import { colors } from "../data/style";
 import { days, months } from "../data/data";
 import separatorWidthArrow from "../icons/Separator-with-Arrow.svg";
+import ReactModal from "react-modal";
+import { TicketSummary } from "./TicketSummary";
+import TicketDetails from "./Ticket";
+
 interface TicketPayHandlerProps {
   selectedTickets: SelectedTickets;
+  resetTickets: () => void;
 }
 
 const ticketArraySorter = (tickets: SelectedTickets) => {
@@ -16,9 +21,9 @@ const ticketArraySorter = (tickets: SelectedTickets) => {
 };
 
 const TicketPayHandler = (props: TicketPayHandlerProps) => {
-  const { selectedTickets } = props;
+  const [modalOpen, setModalOpen] = React.useState<boolean>(false);
+  const { selectedTickets, resetTickets } = props;
   const [totalPrice, setTotalPrice] = React.useState<number>(0);
-  //   const tickets = Object.values(selectedTickets);
   const [tickets, setTickets] = React.useState<Ticket[]>(
     ticketArraySorter(selectedTickets)
   );
@@ -40,7 +45,6 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
       <div
         style={{
           backgroundColor: colors.text1,
-          //   padding: "10px",
           border: "1px solid lightgrey",
         }}
       >
@@ -59,18 +63,9 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
         <div>
           {tickets.map((ticket, index) => {
             return (
-              <div>
+              <div key={index}>
                 {index > 0 && (
-                  <div
-                    style={
-                      {
-                        // width: "100%",
-                        // height: "1px",
-                        // backgroundColor: "lightgrey",
-                        // marginBottom: "10px",
-                      }
-                    }
-                  >
+                  <div>
                     <img
                       src={separatorWidthArrow}
                       style={{
@@ -80,71 +75,7 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
                     />
                   </div>
                 )}
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    paddingLeft: "10px",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    // justifyContent: "space-between",
-                    marginRight: "20px",
-                    marginBottom: "10px",
-                  }}
-                >
-                  <div
-                    style={{
-                      // padding: "2px",
-                      marginRight: "13px",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      textTransform: "uppercase",
-                      fontSize: "14px",
-                      boxShadow: "0px 0px 1px 2px lightgrey",
-                      width: "35px",
-                      height: "50px",
-                      // border: "1px solid lightgrey",
-                    }}
-                  >
-                    <div
-                      style={{
-                        backgroundColor: "lightgray",
-                        height: "50%",
-                        width: "100%",
-                        padding: "2px",
-                        display: "flex",
-                        justifyContent: "center",
-                      }}
-                    >
-                      {months[ticket?.departureDate?.getMonth()]}
-                    </div>
-                    <div
-                      style={{
-                        padding: "2px",
-                      }}
-                    >
-                      {ticket?.departureDate?.getDate()}
-                    </div>
-                  </div>
-                  <div>
-                    <div>
-                      {ticket?.origin} - {ticket?.destination}
-                    </div>
-                    <div
-                      style={{
-                        fontSize: "12px",
-                      }}
-                    >
-                      {days[ticket?.departureDate?.getDay()]}{" "}
-                      {ticket?.departureTime}
-                      {" - "}
-                      {ticket?.arrivalTime}
-                    </div>
-                  </div>
-                </div>
+                <TicketDetails ticket={ticket} />
               </div>
             );
           })}
@@ -163,11 +94,12 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
         <div>${totalPrice}</div>
       </div>
       <button
+        disabled={totalPrice === 0}
         style={{
           marginTop: "15px",
           display: "flex",
           justifyContent: "center",
-          backgroundColor: colors.secondary,
+          backgroundColor: totalPrice === 0 ? "gray" : colors.secondary,
           cursor: "pointer",
           border: "none",
           width: "100%",
@@ -175,11 +107,35 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
           padding: "15px",
         }}
         onClick={() => {
-          alert("PAYMENT SUCCESSFUL");
+          setModalOpen(true);
         }}
       >
         PAY NOW
       </button>
+      <ReactModal
+        isOpen={modalOpen}
+        onRequestClose={() => setModalOpen(false)}
+        style={{
+          content: {
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            padding: "0px",
+          },
+        }}
+      >
+        <TicketSummary
+          tickets={tickets}
+          totalPrice={totalPrice}
+          resetTickets={() => {
+            resetTickets();
+            setModalOpen(false);
+          }}
+        />
+      </ReactModal>
     </div>
   );
 };

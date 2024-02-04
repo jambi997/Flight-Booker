@@ -6,26 +6,22 @@ import { useLocation } from "react-router-dom";
 import { Location, SelectedTickets, Ticket } from "../types/generalTypes";
 import FlightSelector from "../components/FlightSelector";
 import TicketPayHandler from "../components/TicketPayHandler";
-import arrow from "../icons/arrow.svg";
+// import arrow from "../icons/arrow.svg";
+import whitearrow from "../icons/whitearrow.svg";
 import FlightSelectorTop from "../components/FlightSelectorTop";
 import DateSelector from "../components/DateSelector";
 import SubmitButton from "../components/SubmitButton";
 
 const SelectFlight = () => {
-  const location: Location = useLocation();
   const storedData = localStorage.getItem("bookValues");
   const parsedData = storedData ? JSON.parse(storedData) : null;
-  console.log(location);
-  // const { origin, destination, departureDate, returnDate } = location.state;
   const { origin, destination } = parsedData;
   const departureDate = new Date(parsedData.departureDate);
   const [returnDate, setReturnDate] = React.useState<Date | null>(
     parsedData.returnDate ? new Date(parsedData.returnDate) : null
   );
+  console.log("returnDate", returnDate);
   const [tempReturnDate, setTempReturnDate] = React.useState<Date | null>(null);
-  // const returnDate = parsedData.returnDate
-  //   ? new Date(parsedData.returnDate)
-  //   : null;
   const [selectedTickets, setSelectedTickets] = React.useState<SelectedTickets>(
     {}
   );
@@ -34,10 +30,16 @@ const SelectFlight = () => {
     setSelectedTickets({ ...selectedTickets, [type]: ticket });
   };
 
+  const resetTickets = () => {
+    setSelectedTickets({});
+  };
+
   const changeReturnDate = (value: Date) => {
-    console.log(value);
-    // setReturnDate(value);
     setTempReturnDate(value);
+    localStorage.setItem(
+      "bookValues",
+      JSON.stringify({ ...parsedData, returnDate: value })
+    );
   };
   return (
     <div>
@@ -64,9 +66,83 @@ const SelectFlight = () => {
         <div
           style={{
             paddingLeft: "100px",
+            display: "flex",
+            flexDirection: "row",
+            // justifyContent: "center",
+            // alignItems: "end",
+            alignItems: "center",
           }}
         >
-          {origin} - {destination}
+          <div>
+            <div
+              style={{
+                marginRight: "20px",
+                fontSize: "10px",
+                textTransform: "uppercase",
+              }}
+            >
+              leaving from
+            </div>
+            {origin}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              alignItems: "center",
+            }}
+          >
+            {!returnDate ? (
+              <img
+                src={whitearrow}
+                style={{
+                  height: "5px",
+                  paddingRight: "20px",
+                  paddingLeft: "20px",
+                }}
+                alt="arrow"
+              />
+            ) : (
+              <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "5px",
+                alignItems: "center",
+              }}
+              >
+                <img
+                  src={whitearrow}
+                  style={{
+                    height: "5px",
+                    paddingRight: "20px",
+                    paddingLeft: "20px",
+                  }}
+                  alt="arrow"
+                />
+                <img
+                  src={whitearrow}
+                  style={{
+                    height: "5px",
+                    paddingRight: "20px",
+                    paddingLeft: "20px",
+                    rotate: "180deg",
+                  }}
+                  alt="arrow"
+                />
+              </div>
+            )}
+          </div>
+          <div
+            style={{
+              height: "100%",
+              // width: "100%",
+              display: "flex",
+              alignItems: "end",
+            }}
+          >
+            {destination}
+          </div>
         </div>
       </div>
       <div
@@ -112,13 +188,17 @@ const SelectFlight = () => {
           }}
         >
           <div>
-            <TicketPayHandler selectedTickets={selectedTickets} />
+            <TicketPayHandler
+              selectedTickets={selectedTickets}
+              resetTickets={resetTickets}
+            />
           </div>
           <div>
             <FlightSelector
               label="outbound"
               origin={origin}
               destination={destination}
+              selectedTickets={selectedTickets}
               departureDate={departureDate}
               ticketType="departureTicket"
               handleSelectTicket={handleSelectTicket}
@@ -128,6 +208,7 @@ const SelectFlight = () => {
                 label="inbound"
                 origin={destination}
                 destination={origin}
+                selectedTickets={selectedTickets}
                 departureDate={returnDate}
                 ticketType="returnTicket"
                 handleSelectTicket={handleSelectTicket}

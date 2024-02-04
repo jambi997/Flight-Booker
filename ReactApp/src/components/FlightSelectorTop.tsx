@@ -12,17 +12,19 @@ const FlightSelectorTop = (props: FlightSelectorProps) => {
   const { label, origin, destination } = props;
   return (
     <div
-      style={{
-        // // width: "90%",
-        // marginBottom: "30px",
-        // backgroundColor: "white",
-        // border: "1px solid lightgrey",
-        // boxShadow: "0px 0px 1px 0px rgba(0,0,0,0.75)",
-      }}
+      style={
+        {
+          // // width: "90%",
+          // marginBottom: "30px",
+          // backgroundColor: "white",
+          // border: "1px solid lightgrey",
+          // boxShadow: "0px 0px 1px 0px rgba(0,0,0,0.75)",
+        }
+      }
     >
       <div
         style={{
-          backgroundColor: "lightgrey",
+          backgroundColor: colors.lightgray,
           padding: "10px",
           display: "flex",
           flexDirection: "row",

@@ -1,6 +1,5 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import Textfield from "./Textfield";
 import Plus from "../icons/plusmito.svg";
 import SubmitButton from "./SubmitButton";
 import { colors } from "../data/style";
@@ -15,28 +14,26 @@ const DestinationSelector = () => {
   const location: any = useLocation();
   // const { origin, destination, departureDate, returnDate } = location.state;
   const [originCities, setOriginCities] = React.useState<string[]>(cities);
-  const [destinationCities, setDestinationCities] = React.useState<string[]>(cities);
+  const [destinationCities, setDestinationCities] =
+    React.useState<string[]>(cities);
   const navigate = useNavigate();
   const storedData = localStorage.getItem("bookValues");
   const parsedData = storedData ? JSON.parse(storedData) : null;
-  console.log(parsedData);
   const formik = useFormik<BookValues>({
     initialValues: {
-      origin: parsedData.origin || "",
-      destination: parsedData.destination || "",
-      departureDate: new Date(parsedData.departureDate) || new Date(),
-      returnDate: new Date(parsedData.returnDate) || null,
+      origin: parsedData?.origin || "",
+      destination: parsedData?.destination || "",
+      departureDate: parsedData?.departureDate
+        ? new Date(parsedData.departureDate)
+        : null,
+      returnDate: parsedData?.returnDate ? new Date(parsedData.returnDate) : null,
     },
     validationSchema: Yup.object({
       origin: Yup.string()
-        .min(2, "Too Short!")
-        .max(50, "Too Long!")
-        .required("Required"),
+        .required("Please select origin"),
       destination: Yup.string()
-        .min(2, "Too Short!")
-        .max(50, "Too Long!")
-        .required("Required"),
-      departureDate: Yup.date().required("Required"),
+        .required("Please select destination"),
+      departureDate: Yup.date().required("Please select departure"),
       returnDate: Yup.date().nullable(),
     }),
     onSubmit: (values: BookValues) => {
@@ -47,21 +44,24 @@ const DestinationSelector = () => {
       navigate(`/book`);
     },
   });
-  console.log(formik.values);
   useEffect(() => {
     localStorage.setItem("bookValues", JSON.stringify(formik.values));
   }, [formik.values]);
 
   useEffect(() => {
-    const filteredCities = cities.filter((city) => city !== formik.values.origin);
+    const filteredCities = cities.filter(
+      (city) => city !== formik.values.origin
+    );
     setDestinationCities(filteredCities);
-  },[formik.values.origin])
+  }, [formik.values.origin]);
 
   useEffect(() => {
-    const filteredCities = cities.filter((city) => city !== formik.values.destination);
+    const filteredCities = cities.filter(
+      (city) => city !== formik.values.destination
+    );
     setOriginCities(filteredCities);
-  },[formik.values.destination])
-
+  }, [formik.values.destination]);
+  console.log(formik)
   return (
     <div
       style={{
@@ -112,12 +112,16 @@ const DestinationSelector = () => {
           >
             <Autocomplete
               name="origin"
+              label="Origin"
               options={originCities}
+              error={formik.errors.origin}
               value={formik.values.origin}
               onChange={(value) => formik.setFieldValue("origin", value)}
             />
             <Autocomplete
               name="destination"
+              label="Destination"
+              error={formik.errors.destination}
               options={destinationCities}
               value={formik.values.destination}
               onChange={(value) => formik.setFieldValue("destination", value)}
@@ -126,11 +130,13 @@ const DestinationSelector = () => {
               name="departureDate"
               value={formik.values.departureDate}
               onChange={(value) => formik.setFieldValue("departureDate", value)}
+              error={formik.errors.departureDate}
             />
             <DateSelector
               name="returnDate"
               value={formik.values.returnDate}
               onChange={(value) => formik.setFieldValue("returnDate", value)}
+              error={formik.errors.returnDate}
             />
           </div>
           <SubmitButton label="Search" />

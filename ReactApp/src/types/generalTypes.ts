@@ -1,7 +1,7 @@
 export interface BookValues {
   origin: string;
   destination: string;
-  departureDate: Date;
+  departureDate: Date | null;
   returnDate?: Date | null;
 }
 

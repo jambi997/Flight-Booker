@@ -10,15 +10,16 @@ import {
 } from "../data/data";
 import leftArrow from "../icons/left-arrow-chevron.svg";
 import { colors } from "../data/style";
-import { Ticket } from "../types/generalTypes";
+import { SelectedTickets, Ticket } from "../types/generalTypes";
 import FlightSelectorTop from "./FlightSelectorTop";
 interface flightSelectorProps {
   label: string;
   origin: string;
   destination: string;
   departureDate: Date;
+  selectedTickets: SelectedTickets;
   handleSelectTicket: (ticket: Ticket | null, type: string) => void;
-  ticketType: string;
+  ticketType: "departureTicket" | "returnTicket";
 }
 
 const basicDate = (date: Date) => {
@@ -34,6 +35,7 @@ const FlightSelector = (props: flightSelectorProps) => {
     destination,
     departureDate,
     handleSelectTicket,
+    selectedTickets,
     ticketType,
   } = props;
   const [selectedTicket, setSelectedTicket] = React.useState<Ticket | null>(
@@ -42,8 +44,9 @@ const FlightSelector = (props: flightSelectorProps) => {
   const [selectedDate, setSelectedDate] = React.useState<Date>(departureDate);
 
   const handleTicketSelection = (ticket: Ticket | null) => {
-    setSelectedTicket(ticket);
-    // handleSelectTicket(ticket, ticketType);
+    selectedTicket?.id === ticket?.id
+      ? setSelectedTicket(null)
+      : setSelectedTicket(ticket);
   };
 
   useEffect(() => {
@@ -56,6 +59,12 @@ const FlightSelector = (props: flightSelectorProps) => {
     }
     handleSelectTicket(tticket, ticketType);
   }, [selectedTicket, selectedDate]);
+
+  useEffect(() => {
+    if (!selectedTickets[ticketType]) {
+      setSelectedTicket(null);
+    }
+  }, [selectedTickets]);
 
   return (
     <div
@@ -157,6 +166,7 @@ const FlightSelector = (props: flightSelectorProps) => {
       <div>
         {departureTimes.map((time, i) => (
           <div
+            key={`i${i}`}
             style={{
               display: "flex",
               flexDirection: "row",
@@ -196,12 +206,13 @@ const FlightSelector = (props: flightSelectorProps) => {
             </div>
             {prices.map((price, j) => (
               <div
+                key={`j${j}`}
                 style={{
                   display: "flex",
                   flexDirection: "column",
                   justifyContent: "center",
                   alignItems: "center",
-                  //   backgroundColor: j === 1 ? "lightgrey" : "white",
+                  // backgroundColor: j === 1 ? "lightgrey" : "white",
                 }}
               >
                 {i < 1 && (

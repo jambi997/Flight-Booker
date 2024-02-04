@@ -1,19 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
+import { colors } from "../data/style";
+import erroricon from "../icons/erroricon.svg";
 
 interface AutocompleteProps {
   options: string[];
   onChange: (value: string) => void;
   name: string;
+  error?: string;
   value?: string;
   label?: string;
 }
 
 const Autocomplete: React.FC<AutocompleteProps> = (props) => {
-  const { name, label, value, options, onChange } = props;
+  const { name, label, value, error, options, onChange } = props;
   const [inputValue, setInputValue] = useState(value || "");
   const [suggestedOptions, setSuggestedOptions] = useState<string[]>([]);
   const autocompleteRef = useRef<HTMLInputElement>(null);
-
+  console.log(name, error);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setInputValue(inputValue);
@@ -21,6 +24,9 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
       option.toLowerCase().includes(inputValue.toLowerCase())
     );
     setSuggestedOptions(filteredOptions);
+    if (inputValue === "") {
+      onChange("");
+    }
   };
 
   const handleOptionClick = (option: string) => {
@@ -55,6 +61,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
         paddingLeft: "10px",
         paddingRight: "10px",
         margin: "10px",
+        marginBottom: "30px",
       }}
     >
       {" "}
@@ -71,11 +78,13 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
       >
         <input
           style={{
-            border: "1px solid black",
+            border: error ? `2px solid ${colors.error}` : "1px solid black",
+            boxShadow: error && `0px 0px 4px 0px ${colors.error}`,
             padding: "10px",
             //   borderRadius: "5px",
             width: "100%",
             height: "20px",
+            backgroundColor: error && colors.lighterror,
           }}
           type="text"
           value={inputValue}
@@ -89,6 +98,38 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
             setSuggestedOptions(filteredOptions);
           }}
         />
+        <div
+          style={{
+            display: "flex",
+            position: "absolute",
+            height: "0px",
+            marginTop: "70px",
+
+            width: "110%",
+          }}
+        >
+          {error && (
+            <div
+              style={{
+                color: colors.error,
+                width: "100%",
+                fontSize: "12px",
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={erroricon}
+                style={{
+                  height: "15px",
+                  paddingRight: "5px",
+                }}
+                alt="error"
+              />
+              {error}
+            </div>
+          )}
+        </div>
         <div
           style={{
             display: "flex",
