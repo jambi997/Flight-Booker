@@ -60,8 +60,8 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
         justifyItems: "center",
         paddingLeft: "10px",
         paddingRight: "10px",
-        margin: "10px",
         marginBottom: "30px",
+        margin: "10px",
       }}
     >
       {" "}
@@ -76,15 +76,32 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
           position: "relative",
         }}
       >
+        {inputValue && (
+          <div
+            style={{
+              position: "absolute",
+              top: "-5px",
+              width: "100%",
+              // backgroundColor: "white",
+              fontSize: "13px",
+              padding: "5px",
+              zIndex: 1000,
+            }}
+          >
+            Header Text
+          </div>
+        )}
         <input
           style={{
             border: error ? `2px solid ${colors.error}` : "1px solid black",
             boxShadow: error && `0px 0px 4px 0px ${colors.error}`,
             padding: "10px",
+            paddingBottom: "5px",
             //   borderRadius: "5px",
             width: "100%",
             height: "20px",
             backgroundColor: error && colors.lighterror,
+            // textAlign: "end",
           }}
           type="text"
           value={inputValue}
@@ -104,7 +121,6 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
             position: "absolute",
             height: "0px",
             marginTop: "70px",
-
             width: "110%",
           }}
         >

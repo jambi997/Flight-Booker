@@ -12,6 +12,8 @@ import leftArrow from "../icons/left-arrow-chevron.svg";
 import { colors } from "../data/style";
 import { SelectedTickets, Ticket } from "../types/generalTypes";
 import FlightSelectorTop from "./FlightSelectorTop";
+import { isMobile } from "react-device-detect";
+
 interface flightSelectorProps {
   label: string;
   origin: string;
@@ -42,7 +44,6 @@ const FlightSelector = (props: flightSelectorProps) => {
     null
   );
   const [selectedDate, setSelectedDate] = React.useState<Date>(departureDate);
-
   const handleTicketSelection = (ticket: Ticket | null) => {
     selectedTicket?.id === ticket?.id
       ? setSelectedTicket(null)
@@ -84,9 +85,11 @@ const FlightSelector = (props: flightSelectorProps) => {
       <div
         style={{
           display: "flex",
-          flexDirection: "row",
+          flexDirection: isMobile ? "column" : "row",
+          gap: "5px",
           justifyContent: "space-between",
-          height: "50px",
+          // minHeight: "50px",
+          padding: "10px",
           alignItems: "center",
         }}
       >
@@ -163,15 +166,23 @@ const FlightSelector = (props: flightSelectorProps) => {
           />
         </button>{" "}
       </div>
-      <div>
+      <div
+        style={{
+          display: isMobile ? "grid" : "flex",
+          gridTemplateColumns: "1fr 1fr",
+          flexDirection: isMobile ? "row" : "column",
+          minHeight: "200px",
+          // justifyContent: "center",
+          // alignItems: "center",
+        }}
+      >
         {departureTimes.map((time, i) => (
           <div
             key={`i${i}`}
             style={{
               display: "flex",
-              flexDirection: "row",
+              flexDirection: isMobile ? "column" : "row",
               justifyContent: "space-between",
-              height: "50px",
               alignItems: "center",
               border: "1px solid lightgrey",
               padding: "10px",
@@ -189,7 +200,13 @@ const FlightSelector = (props: flightSelectorProps) => {
                   cursor: "pointer",
                 }}
               >
-                <div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
                   {time.departure}
                   <img
                     src={arrow}
@@ -215,7 +232,7 @@ const FlightSelector = (props: flightSelectorProps) => {
                   // backgroundColor: j === 1 ? "lightgrey" : "white",
                 }}
               >
-                {i < 1 && (
+                {(i < 1 || isMobile) && (
                   <div
                     style={{
                       textTransform: "uppercase",

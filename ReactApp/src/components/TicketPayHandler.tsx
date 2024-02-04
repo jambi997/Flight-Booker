@@ -58,9 +58,27 @@ const TicketPayHandler = (props: TicketPayHandlerProps) => {
           }}
         >
           <div>FLIGHTS</div>
-          <div>${totalPrice}</div>
+          <div
+          style={{
+            color: colors.primary,
+            fontWeight: "bold",
+          }}
+          >${totalPrice}</div>
         </div>
         <div>
+          {tickets.length === 0 && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                padding: "10px",
+                paddingTop: "0px",
+                paddingBottom: "20px",
+              }}
+            >
+              Choose an outbound flight{" "}
+            </div>
+          )}
           {tickets.map((ticket, index) => {
             return (
               <div key={index}>

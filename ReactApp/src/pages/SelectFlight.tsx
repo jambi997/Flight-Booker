@@ -11,6 +11,7 @@ import whitearrow from "../icons/whitearrow.svg";
 import FlightSelectorTop from "../components/FlightSelectorTop";
 import DateSelector from "../components/DateSelector";
 import SubmitButton from "../components/SubmitButton";
+import { isMobile } from "react-device-detect";
 
 const SelectFlight = () => {
   const storedData = localStorage.getItem("bookValues");
@@ -65,7 +66,7 @@ const SelectFlight = () => {
         />
         <div
           style={{
-            paddingLeft: "100px",
+            paddingLeft: isMobile ? "20px" : "100px",
             display: "flex",
             flexDirection: "row",
             // justifyContent: "center",
@@ -104,12 +105,12 @@ const SelectFlight = () => {
               />
             ) : (
               <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "5px",
-                alignItems: "center",
-              }}
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "5px",
+                  alignItems: "center",
+                }}
               >
                 <img
                   src={whitearrow}
@@ -177,13 +178,13 @@ const SelectFlight = () => {
         </div>
         <div
           style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 4fr",
-            width: "95vw",
+            display: isMobile ? "block" : "grid",
+            gridTemplateColumns: isMobile ? "auto" : "1fr 4fr",
+            // flexDirection: "column",
+            // width: "95vw",
             maxWidth: "1050px",
             padding: "10px",
             margin: "10px",
-            //spacing
             columnGap: "20px",
           }}
         >

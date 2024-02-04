@@ -26,17 +26,33 @@ const DateSelector = (props: TextfieldProps) => {
           paddingLeft: "10px",
           paddingRight: "10px",
           margin: "10px",
-          marginBottom: "30px",
+          marginBottom: "40px",
           // position: "static",
           zIndex: 0,
         }}
       >
+        {value && (
+          <div
+            style={{
+              position: "absolute",
+              marginTop: "-20px",
+              marginLeft: "-100px",
+              // top: "-5px",
+              // width: "100%",
+              // backgroundColor: "white",
+              fontSize: "13px",
+              padding: "5px",
+              zIndex: 100,
+            }}
+          >
+            Header Text
+          </div>
+        )}
         <ReactDatePicker
           className={error ? "error-date-picker" : "date-picker"}
           selected={value}
           onChange={(date) => onChange(date as Date)}
           name={name}
-          
         />
       </div>
       <div
@@ -44,9 +60,9 @@ const DateSelector = (props: TextfieldProps) => {
           display: "flex",
           position: "absolute",
           height: "0px",
-          marginTop: "-15px",
+          marginTop: "-20px",
           marginLeft: "10px",
-          zIndex: 10000,
+          // zIndex: 10000,
           width: "100%",
         }}
       >
@@ -55,6 +71,7 @@ const DateSelector = (props: TextfieldProps) => {
             style={{
               color: colors.error,
               width: "100%",
+              // width: "200px",
               fontSize: "12px",
               display: "flex",
               alignItems: "center",
@@ -68,7 +85,15 @@ const DateSelector = (props: TextfieldProps) => {
               }}
               alt="error"
             />
-            {error}
+            <div
+              style={{
+                width: "190px",
+                height: "20px",
+                marginTop: "6px",
+              }}
+            >
+              {error}
+            </div>
           </div>
         )}
       </div>

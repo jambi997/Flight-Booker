@@ -9,10 +9,9 @@ import * as Yup from "yup";
 import Autocomplete from "./Autocomplete";
 import DateSelector from "./DateSelector";
 import { cities } from "../data/data";
+import { isMobile } from "react-device-detect";
 
 const DestinationSelector = () => {
-  const location: any = useLocation();
-  // const { origin, destination, departureDate, returnDate } = location.state;
   const [originCities, setOriginCities] = React.useState<string[]>(cities);
   const [destinationCities, setDestinationCities] =
     React.useState<string[]>(cities);
@@ -26,15 +25,30 @@ const DestinationSelector = () => {
       departureDate: parsedData?.departureDate
         ? new Date(parsedData.departureDate)
         : null,
-      returnDate: parsedData?.returnDate ? new Date(parsedData.returnDate) : null,
+      returnDate: parsedData?.returnDate
+        ? new Date(parsedData.returnDate)
+        : null,
     },
     validationSchema: Yup.object({
-      origin: Yup.string()
-        .required("Please select origin"),
-      destination: Yup.string()
-        .required("Please select destination"),
-      departureDate: Yup.date().required("Please select departure"),
-      returnDate: Yup.date().nullable(),
+      origin: Yup.string().required("Please select origin"),
+      destination: Yup.string().required("Please select destination"),
+      departureDate: Yup.date()
+        .min(new Date(), "Departure date cannot be before today")
+        .required("Please select departure"),
+      returnDate: Yup.date()
+        .nullable()
+        .test(
+          "not-same",
+          "Return date must be after departure",
+          function (value) {
+            const { departureDate } = this.parent;
+            return (
+              !departureDate ||
+              !value ||
+              new Date(value) > new Date(departureDate)
+            );
+          }
+        ),
     }),
     onSubmit: (values: BookValues) => {
       // navigate(
@@ -61,7 +75,7 @@ const DestinationSelector = () => {
     );
     setOriginCities(filteredCities);
   }, [formik.values.destination]);
-  console.log(formik)
+  console.log(formik);
   return (
     <div
       style={{
@@ -93,7 +107,7 @@ const DestinationSelector = () => {
       <div
         style={{
           border: "1px solid black",
-          width: "450px",
+          maxWidth: "450px",
           padding: "10px",
           paddingBottom: "30px",
         }}
@@ -106,7 +120,7 @@ const DestinationSelector = () => {
               // flexDirection: "row",
               // justifyContent: "space-between",
               display: "grid",
-              gridTemplateColumns: "auto auto",
+              gridTemplateColumns: isMobile ? "auto" : "auto auto",
               padding: "10px",
             }}
           >
