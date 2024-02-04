@@ -11,6 +11,7 @@ function App() {
         backgroundImage: `url(${europe})`,
         backgroundSize: "cover",
         height: "100%",
+        minHeight: "100vh",
       }}
     >
       <Routes>
