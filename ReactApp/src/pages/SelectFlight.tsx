@@ -25,7 +25,6 @@ const SelectFlight = () => {
   const parsedData = storedData ? JSON.parse(storedData) : null;
   const [flightData, setFlightData] = React.useState<FlightData | null>(null);
   const { origin, destination } = parsedData;
-  // const departureDate = new Date(parsedData.departureDate);
   const [departureDate, setDepartureDate] = React.useState<Date>(
     parsedData.departureDate ? new Date(parsedData.departureDate) : new Date()
   );
