@@ -21,10 +21,10 @@ import { getTicketPrices } from "../services/generalServices";
 
 const SelectFlight = () => {
   const storedData = localStorage.getItem("bookValues");
+  !storedData && window.location.replace("/");
   const parsedData = storedData ? JSON.parse(storedData) : null;
   const [flightData, setFlightData] = React.useState<FlightData | null>(null);
   const { origin, destination } = parsedData;
-  // const departureDate = new Date(parsedData.departureDate);
   const [departureDate, setDepartureDate] = React.useState<Date>(
     parsedData.departureDate ? new Date(parsedData.departureDate) : new Date()
   );
@@ -80,7 +80,6 @@ const SelectFlight = () => {
     const getData = async () => {
       const priceData = await getTicketPrices();
 
-      console.log(priceData);
       setFlightData(priceData);
     };
     getData();

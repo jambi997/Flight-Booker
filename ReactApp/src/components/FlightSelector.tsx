@@ -80,7 +80,6 @@ const FlightSelector = (props: flightSelectorProps) => {
   return (
     <div
       style={{
-        // width: "90%",
         marginBottom: "30px",
         backgroundColor: "white",
         border: "1px solid lightgrey",
@@ -260,6 +259,7 @@ const FlightSelector = (props: flightSelectorProps) => {
                 )}
                 <button
                   className="hover"
+                  disabled={flightData?.expiredTicketIds.includes(Number(`${i}${j}`))}
                   onClick={() => {
                     handleTicketSelection({
                       origin: origin,
@@ -292,12 +292,18 @@ const FlightSelector = (props: flightSelectorProps) => {
                           ? colors.secondary
                           : "transparent",
                       alignItems: "center",
-                      border: `2px solid ${colors.secondary}`,
+                      border:!flightData?.expiredTicketIds.includes(
+                        Number(`${i}${j}`)
+                      ) ? `2px solid ${colors.secondary}`:"2px solid gray",
                       padding: "10px",
                       width: "100px",
                     }}
                   >
-                    <div>${price.price}</div>
+                    {!flightData?.expiredTicketIds.includes(
+                      Number(`${i}${j}`)
+                    ) ? <div>${price.price}</div>:(
+                      <div>Expired</div>
+                    )}
                   </div>
                 </button>
               </div>
