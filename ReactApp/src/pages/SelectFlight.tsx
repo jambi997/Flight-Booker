@@ -17,11 +17,13 @@ const SelectFlight = () => {
   const storedData = localStorage.getItem("bookValues");
   const parsedData = storedData ? JSON.parse(storedData) : null;
   const { origin, destination } = parsedData;
-  const departureDate = new Date(parsedData.departureDate);
+  // const departureDate = new Date(parsedData.departureDate);
+  const [departureDate, setDepartureDate] = React.useState<Date>(
+    parsedData.departureDate ? new Date(parsedData.departureDate) : new Date()
+  );
   const [returnDate, setReturnDate] = React.useState<Date | null>(
     parsedData.returnDate ? new Date(parsedData.returnDate) : null
   );
-  console.log("returnDate", returnDate);
   const [tempReturnDate, setTempReturnDate] = React.useState<Date | null>(null);
   const [selectedTickets, setSelectedTickets] = React.useState<SelectedTickets>(
     {}
@@ -30,6 +32,12 @@ const SelectFlight = () => {
 
   const handleSelectTicket = (ticket: Ticket | null, type: string) => {
     setSelectedTickets({ ...selectedTickets, [type]: ticket });
+    if (ticket?.origin === origin && ticket?.departureDate) {
+      setDepartureDate(new Date(ticket.departureDate));
+    }
+    if (ticket?.origin === destination && ticket?.departureDate) {
+      setReturnDate(new Date(ticket.departureDate));
+    }
   };
 
   const resetTickets = () => {
@@ -43,6 +51,12 @@ const SelectFlight = () => {
       JSON.stringify({ ...parsedData, returnDate: value })
     );
   };
+
+  useEffect(() => {
+    if (returnDate && new Date(returnDate) <= new Date(departureDate)) {
+      setReturnDate(new Date(departureDate.getTime() + 24 * 60 * 60 * 1000));
+    }
+  }, [departureDate, returnDate]);
 
   useEffect(() => {
     if (
@@ -213,6 +227,7 @@ const SelectFlight = () => {
               selectedTickets={selectedTickets}
               minDate={new Date()}
               departureDate={departureDate}
+              setDate={setDepartureDate}
               ticketType="departureTicket"
               handleSelectTicket={handleSelectTicket}
             />
@@ -222,7 +237,10 @@ const SelectFlight = () => {
                 origin={destination}
                 destination={origin}
                 selectedTickets={selectedTickets}
-                minDate={new Date(departureDate.getTime() - 8604000)}
+                minDate={
+                  new Date(departureDate.getTime() + 24 * 60 * 60 * 1000)
+                }
+                setDate={setReturnDate}
                 departureDate={returnDate}
                 ticketType="returnTicket"
                 handleSelectTicket={handleSelectTicket}

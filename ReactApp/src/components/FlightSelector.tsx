@@ -21,6 +21,7 @@ interface flightSelectorProps {
   departureDate: Date;
   selectedTickets: SelectedTickets;
   minDate: Date;
+  setDate?: (date: Date) => void;
   handleSelectTicket: (ticket: Ticket | null, type: string) => void;
   ticketType: "departureTicket" | "returnTicket";
 }
@@ -38,7 +39,9 @@ const FlightSelector = (props: flightSelectorProps) => {
     destination,
     departureDate,
     handleSelectTicket,
+    minDate,
     selectedTickets,
+    setDate,
     ticketType,
   } = props;
   const [selectedTicket, setSelectedTicket] = React.useState<Ticket | null>(
@@ -68,6 +71,12 @@ const FlightSelector = (props: flightSelectorProps) => {
     }
   }, [selectedTickets]);
 
+  useEffect(() => {
+    if (selectedDate.getTime() < minDate.getTime()) {
+      setSelectedDate(departureDate);
+    }
+  }, [departureDate]);
+
   return (
     <div
       style={{
@@ -96,14 +105,18 @@ const FlightSelector = (props: flightSelectorProps) => {
       >
         <button
           onClick={() => {
-            setSelectedDate(new Date(selectedDate.getTime() - 86400000));
+            if (selectedDate.getTime() - 86400000 >= minDate.getTime()) {
+              setSelectedDate(new Date(selectedDate.getTime() - 86400000));
+              setDate && setDate(new Date(selectedDate.getTime() - 86400000));
+            }
           }}
           style={{
             border: "none",
             backgroundColor: "transparent",
             textTransform: "uppercase",
             cursor: "pointer",
-            display: "flex",
+           display: "flex",
+           opacity: selectedDate.getTime() - 86400000 < minDate.getTime() ? 0.6 : 1,
             alignItems: "center",
           }}
         >
@@ -137,6 +150,7 @@ const FlightSelector = (props: flightSelectorProps) => {
         <button
           onClick={() => {
             setSelectedDate(new Date(selectedDate.getTime() + 86400000));
+            setDate && setDate(new Date(selectedDate.getTime() + 86400000));
           }}
           style={{
             border: "none",

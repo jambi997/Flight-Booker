@@ -75,7 +75,6 @@ const DestinationSelector = () => {
     );
     setOriginCities(filteredCities);
   }, [formik.values.destination]);
-  console.log(formik);
   return (
     <div
       style={{

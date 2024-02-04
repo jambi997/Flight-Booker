@@ -16,7 +16,6 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   const [inputValue, setInputValue] = useState(value || "");
   const [suggestedOptions, setSuggestedOptions] = useState<string[]>([]);
   const autocompleteRef = useRef<HTMLInputElement>(null);
-  console.log(name, error);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setInputValue(inputValue);
