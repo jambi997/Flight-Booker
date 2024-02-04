@@ -60,7 +60,7 @@ const DateSelector = (props: TextfieldProps) => {
             height: "20px",
             // marginTop: "-10px",
             marginLeft: "170px",
-            zIndex: 10000,
+            zIndex: 5,
           }}
           alt="calendar"
         />
