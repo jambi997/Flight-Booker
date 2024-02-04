@@ -1,9 +1,5 @@
 import React from "react";
-import { cities } from "../data/data";
-import DatePicker from "react-datepicker";
-import Autocomplete from "./Autocomplete";
 
-import "react-datepicker/dist/react-datepicker.css";
 interface TextfieldProps {
   name: string;
   value: string;

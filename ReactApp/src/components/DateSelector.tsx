@@ -3,7 +3,7 @@ import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { colors } from "../data/style";
 import erroricon from "../icons/erroricon.svg";
-
+import calendar from "../icons/calendar1.svg";
 interface TextfieldProps {
   name: string;
   value?: Date | null;
@@ -31,28 +31,38 @@ const DateSelector = (props: TextfieldProps) => {
           zIndex: 0,
         }}
       >
-        {value && (
-          <div
-            style={{
-              position: "absolute",
-              marginTop: "-20px",
-              marginLeft: "-100px",
-              // top: "-5px",
-              // width: "100%",
-              // backgroundColor: "white",
-              fontSize: "13px",
-              padding: "5px",
-              zIndex: 100,
-            }}
-          >
-            Header Text
-          </div>
-        )}
+        <div
+          style={{
+            position: "absolute",
+            marginTop: value ? "-20px" : "0px",
+            marginLeft: "-160px",
+            width: "20px",
+            // top: "-5px",
+            // width: "100%",
+            // backgroundColor: "white",
+            fontSize: "13px",
+            padding: "5px",
+            zIndex: 100,
+          }}
+        >
+          {label}
+        </div>
         <ReactDatePicker
           className={error ? "error-date-picker" : "date-picker"}
           selected={value}
           onChange={(date) => onChange(date as Date)}
           name={name}
+        />
+        <img
+          src={calendar}
+          style={{
+            position: "absolute",
+            height: "20px",
+            // marginTop: "-10px",
+            marginLeft: "170px",
+            zIndex: 10000,
+          }}
+          alt="calendar"
         />
       </div>
       <div

@@ -16,7 +16,6 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
   const [inputValue, setInputValue] = useState(value || "");
   const [suggestedOptions, setSuggestedOptions] = useState<string[]>([]);
   const autocompleteRef = useRef<HTMLInputElement>(null);
-  console.log(name, error);
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = e.target.value;
     setInputValue(inputValue);
@@ -60,8 +59,8 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
         justifyItems: "center",
         paddingLeft: "10px",
         paddingRight: "10px",
-        marginBottom: "30px",
         margin: "10px",
+        marginBottom: "30px",
       }}
     >
       {" "}
@@ -88,7 +87,7 @@ const Autocomplete: React.FC<AutocompleteProps> = (props) => {
               zIndex: 1000,
             }}
           >
-            Header Text
+           {label}
           </div>
         )}
         <input

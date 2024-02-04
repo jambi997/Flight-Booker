@@ -3,11 +3,12 @@ import { colors } from "../data/style";
 
 interface SubmitButtonProps {
   label: string;
+  disabled?: boolean;
   onClick?: () => void;
 }
 
 const SubmitButton = (props: SubmitButtonProps) => {
-  const { label ,onClick } = props;
+  const { label, disabled, onClick } = props;
   return (
     <div
       style={{
@@ -18,12 +19,13 @@ const SubmitButton = (props: SubmitButtonProps) => {
     >
       <button
         onClick={onClick}
+        disabled={disabled}
         style={{
           border: "1px solid black",
           padding: "10px",
           //   borderRadius: "5px",
           width: "200px",
-          backgroundColor: colors.primary,
+          backgroundColor: disabled ? "gray" : colors.primary,
           color: colors.text1,
           cursor: "pointer",
         }}

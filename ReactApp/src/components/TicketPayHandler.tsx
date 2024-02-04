@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { SelectedTickets, Ticket } from "../types/generalTypes";
 import { colors } from "../data/style";
-import { days, months } from "../data/data";
 import separatorWidthArrow from "../icons/Separator-with-Arrow.svg";
 import ReactModal from "react-modal";
 import { TicketSummary } from "./TicketSummary";
@@ -22,7 +21,7 @@ const ticketArraySorter = (tickets: SelectedTickets) => {
 
 const TicketPayHandler = (props: TicketPayHandlerProps) => {
   const [modalOpen, setModalOpen] = React.useState<boolean>(false);
-  const { selectedTickets, resetTickets } = props;
+  const { selectedTickets, resetTickets} = props;
   const [totalPrice, setTotalPrice] = React.useState<number>(0);
   const [tickets, setTickets] = React.useState<Ticket[]>(
     ticketArraySorter(selectedTickets)
