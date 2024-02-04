@@ -76,7 +76,6 @@ const DestinationSelector = () => {
   useEffect(() => {
     const getCitiesData = async () => {
       const citiesData = await getCities();
-      console.log(citiesData);
       setCities(citiesData);
       setOriginCities(citiesData);
       setDestinationCities(citiesData);
