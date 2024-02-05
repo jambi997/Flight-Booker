@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import arrow from "../icons/arrow.svg";
+import arrow from "../icons/Arrow.svg";
 import leftArrow from "../icons/left-arrow-chevron.svg";
 import { colors } from "../data/style";
 import { FlightData, SelectedTickets, Ticket } from "../types/generalTypes";
