@@ -1,5 +1,5 @@
 import React from "react";
-import arrow from "../icons/arrow.svg";
+import arrow from "../icons/Arrow.svg";
 import { colors } from "../data/style";
 import { isMobile } from "react-device-detect";
 
