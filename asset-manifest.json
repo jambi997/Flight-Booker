@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/react-gh-pages/static/css/main.7c626bb6.css",
+    "main.js": "/react-gh-pages/static/js/main.f6e7894b.js",
+    "static/js/787.d4aba7ab.chunk.js": "/react-gh-pages/static/js/787.d4aba7ab.chunk.js",
+    "static/media/europe.svg": "/react-gh-pages/static/media/europe.73926360323e2557ef46243fe3ff66a5.svg",
+    "static/media/airplane.svg": "/react-gh-pages/static/media/airplane.c1a8dcbd51bf289dd87ecb107a37cb56.svg",
+    "static/media/calendar1.svg": "/react-gh-pages/static/media/calendar1.e1347794c6e37665034b36c7faa99939.svg",
+    "static/media/erroricon.svg": "/react-gh-pages/static/media/erroricon.33db75e2bcf19a69b48046e4c0bcb1d2.svg",
+    "index.html": "/react-gh-pages/index.html",
+    "static/media/Separator-with-Arrow.svg": "/react-gh-pages/static/media/Separator-with-Arrow.9eecfcd4fd38c98ea81286aca478e1ad.svg",
+    "static/media/Arrow.svg": "/react-gh-pages/static/media/Arrow.517f7c8ccd54015d6e88483df5fe4383.svg",
+    "static/media/whitearrow.svg": "/react-gh-pages/static/media/whitearrow.a3b6050f1f758f586cffdcdf2acc904f.svg",
+    "static/media/plusmito.svg": "/react-gh-pages/static/media/plusmito.5c07be4430c1cde150ef4ac0e104d187.svg",
+    "static/media/left-arrow-chevron.svg": "/react-gh-pages/static/media/left-arrow-chevron.7144c897a60657a79af24e8536529280.svg",
+    "main.7c626bb6.css.map": "/react-gh-pages/static/css/main.7c626bb6.css.map",
+    "main.f6e7894b.js.map": "/react-gh-pages/static/js/main.f6e7894b.js.map",
+    "787.d4aba7ab.chunk.js.map": "/react-gh-pages/static/js/787.d4aba7ab.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7c626bb6.css",
+    "static/js/main.f6e7894b.js"
+  ]
+}
